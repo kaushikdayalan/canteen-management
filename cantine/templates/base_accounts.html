@@ -1,0 +1,17 @@
+{% extends 'inbase.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1 class="text-center logo my-4">
+      <a href="{% url 'inhome' %}"><span style="font-family: cursive";>Cantine Restaurent</span> </a>
+    </h1>
+    <!--erased block content and enbblock-- empty one only bcoz signup and login was appearing 2 times -->
+   
+  </div>
+{% endblock %}
