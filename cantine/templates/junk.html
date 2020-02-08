@@ -1,0 +1,85 @@
+{% extends 'base.html' %} 
+{% block title%} Your Cart {% endblock%}
+{% block content %}
+<div class="container my-5">
+<div class="my-5">
+	<h2>Your Cart</h2>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price\unit</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+  	{% for cart in carts %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ cart.item.name }}</td>
+      <td>
+        <a class="mr-2" href="{% url 'decrease-cart' cart.item.pk %}"><span class="badge badge-light"><i class="fa fa-minus"></i></span></a>
+      {{ cart.quantity }}
+        <a class="mr-2" onclick="increasecart" href="{% url 'add-cart' cart.item.pk %}"><span class="badge badge-light"><i class="fa fa-plus"></i></span></a>
+
+      </td>
+      <td>{{cart.item.price}}</td>
+      <td>₹ {{ cart.get_total }}</td>
+    </tr>
+	{% endfor %}
+    <tr>
+      <th scope="row"></th>
+      <td colspan="3"><b>Total<b></td>
+      <td>₹ {{ order.get_totals }}</td>
+    </tr>
+    <tr>
+      
+      <td colspan="5" class="text-right">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-5">
+              <button type="button" style="float: left;padding-right: 0;" onclick="gotohome()" class="btn btn-primary btn-block">Add more Food?</button>
+            </div>
+            <div class="col-5">
+              <button type="button" onclick="showbill()" class="btn btn-success mr-4">Proceed To Checkout</button>
+            </div>
+
+          </div>
+      
+        </div>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+</div>
+<script>
+  function gotohome(){
+    window.location.href="{% url 'home' %}"
+  }
+
+function showbill(){
+  window.location.href="{% url 'order_placed' %}"
+}
+
+</script>
+
+
+{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">Home</li>
+<li class="breadcrumb-item">Cart</li>
+
+
+{% endblock %}
+
+
+
+
+order_m_t = Order.objects.get(user=request.user, ordered=False)
+order_m_t.ordered = True
+order_m_t.save()
